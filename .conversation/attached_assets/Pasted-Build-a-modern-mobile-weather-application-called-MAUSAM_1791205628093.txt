@@ -1,0 +1,322 @@
+Build a modern mobile weather application called:
+
+“MAUSAM – Your Personalized Weather Experience”
+
+PROJECT GOAL:
+Create a personalized version of a weather app where different users see different weather information based on their location, interests, activities, health needs, and preferences.
+
+The app should not behave like a normal weather app that shows the same information to everyone. It should intelligently prioritize the information that is most useful to each user.
+
+TARGET USERS:
+- Fitness users
+- Travelers
+- Health-conscious users
+- Farmers/Gardeners
+- Daily commuters
+- General users
+
+CORE FEATURES:
+
+1. USER ONBOARDING
+Create a simple onboarding screen where the user selects:
+- Name
+- Current location
+- Interests:
+  Fitness
+  Travel
+  Health
+  Farming
+  Commuting
+  General
+- Preferred activities
+- Notification preference
+
+Save this information in the database.
+
+2. PERSONALIZED HOME PAGE
+Create a beautiful dashboard that changes according to the user's profile.
+
+Show:
+- Current temperature
+- Weather condition
+- Feels like temperature
+- Humidity
+- Wind speed
+- Rain probability
+- UV index
+- AQI
+- Visibility
+
+Do NOT show every parameter with equal importance.
+
+Prioritize information according to the user's selected interests.
+
+Example:
+Fitness user → UV, temperature, humidity and best running time
+Traveler → destination weather, rain and visibility
+Health user → AQI, UV, pollen, humidity
+Farmer → rainfall, temperature and farming-related weather information
+Commuter → rain, visibility and severe weather alerts
+
+3. WEATHER DATA
+Use Open-Meteo as the primary weather API because it can be used without an API key for a non-commercial prototype.
+
+Use location coordinates to fetch:
+- Current weather
+- Hourly forecast
+- 7-day forecast
+- Rain probability
+- Wind
+- Humidity
+- UV index
+- Temperature
+
+Create a clean API service layer so another weather provider can be added later.
+
+4. AQI
+Integrate an air-quality API such as OpenAQ.
+
+Display:
+- AQI
+- PM2.5
+- PM10
+- Air quality category
+
+Give simple health advice based on air quality.
+
+5. SMART PERSONALIZATION
+Create a personalization engine.
+
+Input:
+- User profile
+- Location
+- Activity
+- Weather
+- AQI
+- Time of day
+- User preferences
+
+Output:
+- What information should appear first
+- Which weather card should be highlighted
+- Whether an alert is relevant
+- Recommended activity
+- Best time for an activity
+
+For the prototype, use a rule-based recommendation engine first.
+Structure the code so ML can be added later.
+
+6. ACTIONABLE RECOMMENDATIONS
+Do not only display weather numbers.
+
+Generate simple recommendations such as:
+
+“Good time for running”
+“Carry an umbrella – high rain probability”
+“Avoid outdoor exercise – poor air quality”
+“Good weather for travel”
+“Possible heavy rainfall – plan irrigation carefully”
+
+7. SMART ALERTS
+Create personalized alerts for:
+- Heavy rain
+- Storm
+- Fog
+- Heat
+- Poor AQI
+- High UV
+
+Alerts should depend on:
+- User location
+- Weather severity
+- User interests
+
+Do not send unnecessary alerts.
+
+8. LOCATION
+Allow:
+- Current location detection
+- Search location
+- Save multiple locations
+- Change active location
+
+Use latitude and longitude for weather requests.
+
+9. FORECAST SCREEN
+Create:
+- Today
+- Hourly forecast
+- 7-day forecast
+
+Use attractive weather cards and simple icons.
+
+10. PERSONALIZED INSIGHTS SCREEN
+Create a screen called “My Insights”.
+
+Show:
+- Best time to run
+- Best time to travel
+- Weather risk
+- Health advice
+- Farming advice
+- Daily summary
+
+11. NOTIFICATION SYSTEM
+Prepare Firebase Cloud Messaging integration for:
+- Rain alerts
+- Severe weather alerts
+- AQI alerts
+- Personalized activity alerts
+
+For the prototype, create the notification architecture and clearly separate notification logic from UI.
+
+12. DATABASE
+Use PostgreSQL.
+
+Create tables for:
+- users
+- user_preferences
+- locations
+- saved_locations
+- weather_history
+- alerts
+- recommendations
+
+13. BACKEND
+Use FastAPI.
+
+Create APIs for:
+- User profile
+- Preferences
+- Weather
+- AQI
+- Saved locations
+- Recommendations
+- Alerts
+
+Example endpoints:
+GET /weather
+GET /forecast
+GET /aqi
+GET /recommendations
+GET /alerts
+POST /user
+POST /preferences
+POST /locations
+
+14. FRONTEND
+Use React Native with Expo.
+
+Create these screens:
+
+1. Splash Screen
+2. Onboarding
+3. Login / Signup
+4. Personalized Home
+5. Weather Forecast
+6. My Insights
+7. Saved Locations
+8. Alerts
+9. Profile & Preferences
+
+15. UI DESIGN
+Design should look like a professional modern weather application.
+
+Style:
+- Clean
+- Minimal
+- Mobile-first
+- Smooth animations
+- Rounded cards
+- Large weather information
+- Easy navigation
+- Good spacing
+- Modern icons
+- Light and dark mode
+
+Bottom navigation:
+Home | Forecast | Insights | Alerts | Profile
+
+16. PERSONALIZATION EXAMPLE
+When the user selects Fitness:
+
+HOME PAGE should prioritize:
+- Temperature
+- UV
+- Humidity
+- AQI
+- Running suitability
+- Best exercise time
+
+When the user selects Travel:
+
+HOME PAGE should prioritize:
+- Weather
+- Rain probability
+- Visibility
+- Wind
+- Travel recommendation
+
+17. TECH STACK
+Frontend:
+React Native + Expo
+
+Backend:
+Python + FastAPI
+
+Database:
+PostgreSQL
+
+Recommendation engine:
+Python rule-based logic, prepared for future ML
+
+APIs:
+Open-Meteo
+OpenAQ
+OpenStreetMap or another suitable map provider
+
+Notifications:
+Firebase Cloud Messaging
+
+18. IMPORTANT DEVELOPMENT REQUIREMENTS
+- Keep API keys and secrets in environment variables.
+- Never expose secret keys in frontend code.
+- Add loading states.
+- Add API error handling.
+- Add fallback messages when weather data is unavailable.
+- Handle location permission denial.
+- Make the app responsive.
+- Use reusable React Native components.
+- Keep frontend, backend and services properly separated.
+- Add comments where important.
+- Provide a clear README with setup instructions.
+
+19. DEMO MODE
+Create a DEMO MODE so the complete project can run even if an external API is unavailable.
+
+Include sample weather/AQI data for:
+- Pune
+- Mumbai
+- Nashik
+- Sangamner
+
+Add a toggle:
+“Live Data / Demo Data”
+
+20. FINAL OUTPUT
+Generate:
+- Complete frontend code
+- Complete FastAPI backend
+- Database schema
+- API integration
+- Recommendation engine
+- Notification architecture
+- .env.example
+- README
+- Setup instructions
+- Sample/demo data
+
+The final app should feel like a real personalized weather product, not a basic weather dashboard.
+
+MAIN USP:
+“Instead of showing the same weather information to everyone, Mausam understands the user and shows what matters most to that person.”

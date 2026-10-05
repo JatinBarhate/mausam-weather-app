@@ -10,6 +10,10 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: users
+    description: User profiles and preferences
+  - name: locations
+    description: Saved locations
 paths:
   /healthz:
     get:
@@ -24,6 +28,157 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /users:
+    post:
+      operationId: createUser
+      tags: [users]
+      summary: Create or update a user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+      responses:
+        "200":
+          description: Saved user profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid request
+  /users/{userId}:
+    get:
+      operationId: getUser
+      tags: [users]
+      summary: Get a user profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found
+  /users/{userId}/preferences:
+    get:
+      operationId: getPreferences
+      tags: [users]
+      summary: Get a user's weather preferences
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User preferences
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Preferences"
+        "404":
+          description: Preferences not found
+    put:
+      operationId: updatePreferences
+      tags: [users]
+      summary: Update a user's weather preferences
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PreferencesRequest"
+      responses:
+        "200":
+          description: Saved preferences
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Preferences"
+        "400":
+          description: Invalid request
+  /users/{userId}/saved-locations:
+    get:
+      operationId: listSavedLocations
+      tags: [locations]
+      summary: List a user's saved locations
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Saved locations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SavedLocation"
+    post:
+      operationId: saveLocation
+      tags: [locations]
+      summary: Save a location for a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaveLocationRequest"
+      responses:
+        "201":
+          description: Saved location
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SavedLocation"
+        "400":
+          description: Invalid request
+  /users/{userId}/saved-locations/{locationId}:
+    delete:
+      operationId: deleteSavedLocation
+      tags: [locations]
+      summary: Remove a saved location
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Location removed
+        "404":
+          description: Saved location not found
 components:
   schemas:
     HealthStatus:
@@ -33,4 +188,80 @@ components:
           type: string
       required:
         - status
+    Interest:
+      type: string
+      enum: [fitness, travel, health, farming, commuting, general]
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required: [id, name, createdAt]
+    CreateUserRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required: [id, name]
+    Preferences:
+      type: object
+      properties:
+        userId:
+          type: string
+        interests:
+          type: array
+          items:
+            $ref: "#/components/schemas/Interest"
+        preferredActivity:
+          type: string
+        notificationsEnabled:
+          type: boolean
+        useDemoData:
+          type: boolean
+      required: [userId, interests, preferredActivity, notificationsEnabled, useDemoData]
+    PreferencesRequest:
+      type: object
+      properties:
+        interests:
+          type: array
+          items:
+            $ref: "#/components/schemas/Interest"
+        preferredActivity:
+          type: string
+        notificationsEnabled:
+          type: boolean
+        useDemoData:
+          type: boolean
+      required: [interests, preferredActivity, notificationsEnabled, useDemoData]
+    SaveLocationRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+      required: [name, latitude, longitude]
+    SavedLocation:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        latitude:
+          type: number
+        longitude:
+          type: number
+        isActive:
+          type: boolean
+      required: [id, name, latitude, longitude, isActive]
 
